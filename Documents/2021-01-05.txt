@@ -1,0 +1,9 @@
+- Learnt the fundamental concepts and usecase of ssh key, public repo and private repo
+- Learnt Git commands like 
+	-init, add, commit, branch, merge, fetch, rebase
+    	-learn the difference between ( merge,push) and ( fetch ,rebase ) 	
+	-clone my own repository and made new branch to practice clone, pull and fetch-rebase commands
+	- push my repo from local machine to GitHub to practice push,remote commands
+ 
+
+ 
