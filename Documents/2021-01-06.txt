@@ -1,0 +1,50 @@
+/* Following things/commands are implemented practically */
+
+1. Done full depth study of git status: 
+	untracked files: 
+		- yet to put files into staging
+		- simply the files are not ready to commit
+		- Rightnow, the file's changes is not track by git
+
+	changes to be commited:
+		- Files now are into stage 
+		- It is ready to commit
+		- The changes is being tracked by git
+		- If you make any changes in this state, then you need to put that file in staging using 'add' comand
+
+2. Learnt undoing changes in git: 
+	3 methods:
+  	1. git checkout <commit-id>:
+		 -This will give view of commited code given by commit-id
+		- Here, head is pointing the detached head, So whatever changes you do here and commit, that changes will not gonna affect master branch (main code). 
+		- If you want to make changes permanant. then, before commiting the changes you can create new branch and then commit the changes and simply merge that branch with master branch
+
+	2. git revert <commit-id>:
+		- It reverts all the changes done on that particular commit
+		- It is very useful as you can revert the entire branch merge operation to undo all the changes you made after creating that branch
+		-The git will record this revert operation and add that into the log as a commit, so if you want to revert the revert operation you can also perform that using this same command
+		
+	3. git reset <commit-id> / git reset --hard <commit-id>: 
+		-This comand resets the entire codebase by undoing all the commits happened after given commit-id and also undone the changes happened in given commit.Here, all the changes will not deleted but unstaged.
+		-  If you use --hard flag then it will also delete the changes happend in commits. 
+		- Note that in both the cases git will delete the commit history also, so here unlike revert command you can not retain the deleted code.
+
+3. Learnt about --no-ff flag:
+ 	- The difference between simple merge (git merge ) and this merge (git merge --no-ff) is that in simple merge git will use fast-forward to rapidly merge two branches and this operation will not recorded in git commit history but using this --no-ff flag will prevent this behaviour and add merge operation in commit history.
+
+4. Understood the generic work-flow of developement or production of application and distribution of task using git/github:
+	These are the steps:
+	1. Everyone(developers) involves in making an app will clone the remote repo(created by project manager) into their local machine
+	2. Now Each developer will create their branch and make changes in their code to develope new features
+	3. After developing the feature they will commit the changes.(It will not afftect main branch as all the changes has happended into their own created branch) 
+	4. Now, developers push their branches onto github and project manager will review their code and if it perfect then they merge that branch with master(main) branch
+	5.  Now, to get the latest copy of master branch developer should use,  fetch-rebase or pull-merge commads
+
+5. Download and use AnyDesk with another laptop. 
+	 	
+6. Learnt how to merge using commit-id.
+
+
+
+
+				 	
