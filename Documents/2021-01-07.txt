@@ -1,0 +1,19 @@
+1.  Today in morning I learnt and practically perfomed 'git rebase' command, by creating new repo I learnt the difference between rebase and merge. Also, analyse and understood the entire commit history when you perform rebase command and when you perform merge command.
+     As both this commands do exactly the same thing which is merging branches. But as they seems similar they are not interchangable.
+
+	# Here I summerize both these commands with its use case.
+ 	* Rebase command:
+	- The main use case of 'rebase' command is to update all the changes happened in remote repo' master (main) branch. We can use it along with fetch command to fetch all the changes. It perform linear merge. Which simply means that, rebase puts the commits of feature branch on top of master branch. It also not record itself in log history.
+
+I also got to know that it's dangerous and not recommend to use rebase when you are working on shared branch.
+
+	 * merge command : 
+	- The main use case of 'merge'  command is to merge feature branch with master branch in production. Merge simply joins the all commits and record itself in log as merge commit. 
+
+2 . Then I learnt about 'cherry-pick' command, as it is useful to bring other branch's commit into your code. The main difference between this and merge command is, in merge entire branch (All its commit) moves into your branch but in cherry-pick only selected commit moves into your branch.
+
+3. After the meeting I gone through 'git rebase -i HEAD~N'  command. This command lets you operate on particular commit. Using it you can re-word the commit message
+
+4. I also understood the importance of squashing commits and learnt different ways to do it. It cleans all the mess and gives clear view of feature developement. 
+
+5. Along with rewording and squashing commits, I also performed deletation , re-ordering and ammending commits.
