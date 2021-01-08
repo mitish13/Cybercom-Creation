@@ -1,0 +1,9 @@
+1. Today I brush up basic JavaScript conceps as I already gone through JavaScript earlier while making several projects.
+
+2. I brush up on basic js concepts like variable, operator, operator precedence, type mutation, type coercion and everything which is included in today's video session of js.
+
+3. Then I performed excercises related to js, which I pushed into 'coding/js' folder of github.
+
+4. After that I brush up all HTML tags, like table,flex-box, float.
+
+5. And then did html excercise which is assigned to us to perform today.
