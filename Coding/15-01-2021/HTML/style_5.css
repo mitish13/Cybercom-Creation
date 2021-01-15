@@ -1,0 +1,32 @@
+table,
+td,
+th {
+	border: 1px solid black;
+	text-align: center justify;
+}
+
+td,
+th {
+	padding: 5px;
+}
+
+.head {
+	background-color: green;
+}
+li {
+	text-align: justify;
+}
+
+.left {
+	background-color: lightblue;
+}
+.middle {
+	background-color: lightcoral;
+}
+.right {
+	background-color: orange;
+}
+span {
+	color: blue;
+	text-decoration: underline;
+}
