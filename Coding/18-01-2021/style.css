@@ -1,0 +1,37 @@
+* {
+	box-sizing: border-box;
+}
+input,
+select {
+	display: block;
+	padding: 10px;
+	font-size: 16px;
+}
+
+.checkbox,
+option {
+	display: block;
+	margin-left: 50px;
+}
+button {
+	display: inline-block;
+	margin-top: 20px;
+	padding: 20px;
+	width: 100px;
+}
+h4 {
+	margin-left: 5px;
+}
+ul {
+	list-style: none;
+}
+
+li {
+	margin-left: 30px;
+}
+li input {
+	display: inline;
+}
+span input {
+	display: inline;
+}
