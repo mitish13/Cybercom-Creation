@@ -5,17 +5,23 @@ const bday=document.getElementById('bday');
 const form=document.getElementById('form');
 const div=document.getElementById('list');
 
-const data=[];
+var data=[];
 
 
 form.addEventListener('submit',adduser);    
 
+// window.onload=()=>{
+//     localStorage.removeItem('users')
+// }
+
 function adduser(e){
     e.preventDefault();
-    const obj=new NewEntry();
+    var obj=new NewEntry();
 
     if(localStorage.getItem('users')!==null){
-        data.push(JSON.parse(localStorage.getItem('users')));
+        //already value in
+
+        data=(JSON.parse(localStorage.getItem('users')));
     }
     
     data.push(obj);
@@ -34,7 +40,22 @@ function NewEntry(){
 }
 
 function viewUser(){
-    const usersArray=localStorage.getItem('users');
-    console.log(usersArray);
+    const usersArray=JSON.parse(localStorage.getItem('users'));
+    const uname=[];
+    const email=[];
+    const password=[];
+    const userBday=[];
 
+   usersArray.forEach((elem)=>{
+       uname.push(elem.userName);
+       email.push(elem.userEmail);
+       password.push(elem.userPassword);
+       userBday.push(elem.bday);
+   })
+
+   writeOnPage();
+
+}
+function writeOnPage(){
+    
 }
