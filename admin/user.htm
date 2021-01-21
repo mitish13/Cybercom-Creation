@@ -13,10 +13,21 @@
         <input type="email" name="userEmail" id="userEmail" placeholder="Email" required>
         <input type="password" name="userPassoword" id="userPassword" placeholder="Password" required>
         <input type="date" name="bday" id="bday" placeholder="Bithdate" required><br>
-
+        
         <button type="submit" id="btn">Add User</button>
     </form>
     <h2>User List</h2>
+    <table border="1" id='table'>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Birthdate</th>
+            <th>Age</th>
+            <th>Action</th>
+        </tr>
+
+    </table>
     <div id="list"></div>
     <script src="./scripts/user.js"></script>
 </body>
