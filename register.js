@@ -12,15 +12,19 @@ const form=document.getElementById('form');
 form.addEventListener('submit',validate);
 
 window.onload=(()=>{
+
     if(localStorage.getItem('admin')){
         btn.disabled=true;
     }
+
+    // localStorage.removeItem('admin')
+
 })
 
 function validate(e){
+    e.preventDefault();
 
     if(password.value!==rePassword.value){
-        e.preventDefault();
 
         const p=document.createElement('p');
         const pText=document.createTextNode('Password not matched');
@@ -28,6 +32,7 @@ function validate(e){
         form.appendChild(p);
     }
     else{
+        
         const adminData=new CreateObj();
         storeData(adminData);
     }
@@ -42,5 +47,5 @@ function CreateObj(){
 
 function storeData(adminData){
     localStorage.setItem('admin',JSON.stringify(adminData));
-    window.location
+    window.location.href='login.htm';
 }
