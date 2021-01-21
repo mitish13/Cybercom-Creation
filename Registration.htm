@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+</head>
+<body>
+    <h1>Registration</h1>
+    <form id="form">
+        <input type="text" name="uname" id="uname" placeholder="name" required><br>
+        <input type="email" name="email" id="email" placeholder="email" required><br>
+        <input type="password" name="password" id="password" placeholder="password" required><br>
+        <input type="password" name="repass" id="repass" placeholder="Confirm Password"><br>
+        Select State:<select name="state" id="state">
+            <option value="gujarat">Gujarat</option>
+            <option value="maharashtra">maharashtra</option>
+        </select><br>
+
+        Select City:<select name="city" id="city">
+            <option value="vadodara">Vadodara</option>
+            <option value="rajkot">Rajkot</option>
+        </select><br>
+
+        
+        
+        <input type="checkbox" value="apply" name="apply" required> Terms and condition apply<br>
+        <button type="submit" id="btn">Register</button>
+    </form>
+    <script src="register.js"></script>
+</body>
+</html>
