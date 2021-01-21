@@ -20,7 +20,7 @@ function getName(id){
             //bday check
             var dob=new Date(elem.bday);
             var today=new Date();
-            if(dob.getDay()==dob.getDay() && dob.getMonth()==dob.getMonth()){
+            if(dob.getDay()==today.getDay() && dob.getMonth()==today.getMonth()){
                 var bday=document.createElement('h1');
                 bday.innerHTML="Happy birthday";
                 body.appendChild(bday);
