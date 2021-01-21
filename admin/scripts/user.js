@@ -90,11 +90,7 @@ function writeOnPage(usersArray){
         for(const prop in data[i]){
             var td=document.createElement('td');
             td.innerText=data[i][prop];
-
-            // action
-
             
-
             tr.appendChild(td);
 
         }   
