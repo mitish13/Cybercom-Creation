@@ -11,8 +11,13 @@ var data=[];
 form.addEventListener('submit',adduser);    
 
 window.onload=()=>{
-    const usersArray=JSON.parse(localStorage.getItem('users'));
-    writeOnPage(usersArray);
+    if(localStorage.getItem('users')!==null){
+        const usersArray=JSON.parse(localStorage.getItem('users'));
+
+        writeOnPage(usersArray);
+    }
+    
+    
 }
 
 function adduser(e){
@@ -45,11 +50,14 @@ function NewEntry(){
        
      //now calculate the age of the user  
      var age = Math.abs(year - 1970);  
+
+     var id=Math.random();
   
      //Action prop
     var action1="Edit";
     var action2="delete";
-    
+
+    this.id=id;
     this.userName=userName.value;
     this.userEmail=userEmail.value;
     this.userPassword=userPassword.value;
@@ -88,11 +96,13 @@ function writeOnPage(usersArray){
         //row 
         var tr=document.createElement('tr');
         for(const prop in data[i]){
+            //skip id
+            if(prop!=="id"){
             var td=document.createElement('td');
             td.innerText=data[i][prop];
-            
-            tr.appendChild(td);
 
+            tr.appendChild(td);
+            }
         }   
 
        

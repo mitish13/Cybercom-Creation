@@ -20,21 +20,23 @@ function validateAdmin(e){
     //users
     const uEmail=[];
     const uPass=[];
+    const uid=[];
 
    userData.forEach((elem)=>{
        uEmail.push(elem.userEmail);
        uPass.push(elem.userPassword);
+       uid.push(elem.id);
    })
    
     ifAdmin(emailAdmin,passwordAdmin);
 
-    ifUser(uEmail,uPass);
+    ifUser(uEmail,uPass,uid);
 
    if(!isAdmin && !isUser){
     var p=document.createElement('p');
-    p.innerHTML="Wrong input";
+    p.innerHTML="Invalid username or password";
     form.appendChild(p);    
-   
+    
    }
   
 
@@ -44,6 +46,7 @@ function ifAdmin(emailAdmin,passwordAdmin){
         isAdmin=true;
         window.location.href="admin/index.htm";
 
+
     }
     else {
         isAdmin=false;
@@ -52,7 +55,7 @@ function ifAdmin(emailAdmin,passwordAdmin){
     
 }
 
-function ifUser(uEmail,uPass){
+function ifUser(uEmail,uPass,uid){
     for(var i=0;i<uEmail.length;i++){
         
         if(email.value===uEmail[i]){
@@ -60,7 +63,10 @@ function ifUser(uEmail,uPass){
             if(password.value==uPass[i]){
                 console.log(uPass[i]);
                 isUser=true;
+                console.log(uid[i]);
+                sessionStorage.setItem('currentUser',uid[i]);
                 window.location.href="subUser.htm";
+
             }
         }
 
