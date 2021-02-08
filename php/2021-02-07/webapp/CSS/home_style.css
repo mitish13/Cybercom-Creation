@@ -1,0 +1,10 @@
+#home {
+	background-color: burlywood;
+	height: 90vh;
+	padding: 20px;
+	overflow-y: hidden;
+}
+
+#rec {
+	color: darkslategray;
+}

@@ -1,0 +1,40 @@
+#contact {
+	background-color: burlywood;
+	min-height: 90vh;
+	padding: 10px;
+}
+#btnAdd {
+	margin-top: 20px;
+	padding: 10px;
+	font-size: 16px;
+	color: wheat;
+	background-color: black;
+	font-weight: 500;
+	letter-spacing: 1.2px;
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	border: none;
+}
+#btnAdd:hover {
+	background-color: rgb(80, 80, 80);
+	border: 1px solid wheat;
+}
+#table {
+	margin-top: 30px;
+	border: 1px solid black;
+}
+
+th,
+td {
+	padding: 5px;
+	border-bottom: 1px solid black;
+	border-top: 1px solid black;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+th {
+	background-color: gray;
+}
+
+#msg {
+	margin: 10px;
+}

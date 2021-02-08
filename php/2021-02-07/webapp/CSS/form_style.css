@@ -1,0 +1,46 @@
+#formDiv {
+	background-color: burlywood;
+	height: 90vh;
+	padding-left: 20px;
+	padding-top: 20px;
+}
+
+form {
+	margin-top: 30px;
+	display: flex;
+
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+input {
+	padding: 10px;
+	letter-spacing: 1.2px;
+	margin-top: 5px;
+	font-size: 15px;
+}
+input::placeholder {
+	font-size: 15px;
+}
+
+label {
+	font-size: 17px;
+	font-weight: 500;
+}
+button {
+	padding: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	font-size: 18px;
+	background-color: rgb(80, 80, 80);
+	color: wheat;
+	border: none;
+}
+button:hover {
+	background-color: black;
+	color: white;
+}
+
+span {
+	color: red;
+}
