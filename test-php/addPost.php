@@ -137,6 +137,7 @@ if(isset($_POST['submit'])){
         
         
     //     //url validation;
+    if($_SESSION['action']!=='update'){
         if(!filter_var($url,FILTER_VALIDATE_URL)){
                 array_push($errArray,"Url is invalid");
          }else {
@@ -147,7 +148,7 @@ if(isset($_POST['submit'])){
                 
             } 
               
-         }
+         }}
             
     //      //published validation
          
@@ -182,6 +183,19 @@ if(isset($_POST['submit'])){
  function storeData($link,$title,$content,$url,$publishedAt,$categoryArray,$image){
     //image setting
     $serialize=serialize($categoryArray);
+
+    if($_SESSION['action']=='update'){
+        //update data
+            $updateQue="UPDATE blog_post SET title='$title',url='$url',content='$content',category='$serialize',image='$image',published_at='$publishedAt' WHERE id='$_SESSION[id]'";
+            if($exeQue=mysqli_query($link,$updateQue)){
+                header("location:home.php");
+    
+            }else{
+                echo mysqli_errno($link).mysqli_error($link);
+            }        
+    
+    }
+    else{
     // insert data into db
         $insertQue="INSERT INTO blog_post(uid,title,url,content,category,image,published_at) VALUES('$_SESSION[uid]','$title','$url','$content','$serialize','$image','$publishedAt')";
         if($exeQue=mysqli_query($link,$insertQue)){
@@ -189,7 +203,7 @@ if(isset($_POST['submit'])){
         }else{
             echo "Errrorrr storing data, error: ".mysqli_error($link)." ErrorCode: ".mysqli_errno($link);
         };
-        
+    }
 
  }
  
