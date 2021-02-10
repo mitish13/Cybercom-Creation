@@ -9,6 +9,9 @@ if(!isset($_SESSION['login'])){
         header("location:login.php");
     }
 }
+if(!isset($_GET['action'])){
+    $_GET['action']="";
+}
 ?>
 
 <?php 
