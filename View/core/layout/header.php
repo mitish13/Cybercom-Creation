@@ -20,3 +20,6 @@
 <li class="nav-item active">
     <a class="nav-link" href="./index.php?c=customergroup&a=grid">View Customer Group</a>
 </li>
+<li class="nav-item active">
+    <a class="nav-link" href="./index.php?c=attribute&a=grid">View Attributes</a>
+</li>

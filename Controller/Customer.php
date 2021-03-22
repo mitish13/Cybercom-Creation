@@ -109,4 +109,109 @@ class Controller_Customer extends Controller_Core_Admin
         }
         $this->redirect('grid', null, null, true);
     }
+
+    public function addressAction()
+    {
+       
+        try 
+        { 
+            if(!$this->getRequest()->isPost())
+            {
+                throw new Exception("Invalid Post Request");
+            }
+            $customerId = $this->getRequest()->getGet('id');
+            $customer = Mage::getModel("Model_CustomerAddressModel");
+        
+            $query="SELECT addressType from customer_address where customerId =".$customerId;
+            $existing = $customer->fetchAll($query); 
+            $typeArray = [];
+            
+            if($existing){
+                foreach ($existing->getData() as  $record) {
+                    $typeArray[] = $record->addressType;
+                }
+            }
+
+            $customerBillingData = $this->getRequest()->getPost('billing');
+
+            if($customerBillingData['address']){
+                if(in_array('Billing',$typeArray)){
+                    
+                    $customer->customerId = $customerId;
+                    $customer->addressType = "Billing";
+                    $customer->setData($customerBillingData);
+                    $updateData = $customer->getData();
+
+                    $value= array_values($updateData);
+                    $field = array_keys($updateData);
+                    $final = null;
+        
+                    for ($i=0; $i < count($field); $i++) {
+                        if ($field[$i] == "customerId") {
+                            $id = $value[$i];
+                            continue;
+                        }
+                        $final = $final."`".$field[$i]."`='".$value[$i]."',";
+                    }
+                    $final = rtrim($final,",");
+                    
+                    $query ="UPDATE `customer_address` SET {$final} WHERE `customerID` = '{$id}' and `addressType` = 'Billing'";
+                    
+                    $customer->update($query); 
+                    $this->getMessage()->setSuccess("Billing Address Updated !!");
+                }
+                else{
+                    $customer->customerId = $customerId;
+                    $customer->addressType = "Billing";
+                    $customer->setData($customerBillingData);
+                    $customer->save();
+                    $this->getMessage()->setSuccess("Billing Address Added !!");
+                }
+
+        }
+        $customer->resetArray();
+        
+        $customerShippingData = $this->getRequest()->getPost('shipping');
+        if($customerShippingData['address']){
+            
+            if(in_array('Shipping',$typeArray)){
+                $customer->customerId = $customerId;
+                $customer->addressType = "Shipping";
+                $customer->setData($customerShippingData);
+                $updateData = $customer->getData();
+
+                 $value= array_values($updateData);
+                 $field = array_keys($updateData);
+                 $final = null;
+     
+                 for ($i=0; $i < count($field); $i++) {
+                     if ($field[$i] == "customerId") {
+                         $id = $value[$i];
+                         continue;
+                     }
+                     $final = $final."`".$field[$i]."`='".$value[$i]."',";
+                 }
+                 $final = rtrim($final,",");
+                 
+                $query ="UPDATE `customer_address` SET {$final} WHERE `customerID` = '{$id}' and `addressType` = 'Shipping'";
+                
+                $customer->update($query);
+                $this->getMessage()->setSuccess("Shipping Address Updated !!");
+            }
+            else{
+                $customer->customerId = $customerId;
+                $customer->addressType = "Shipping";
+                $customer->setData($customerShippingData);
+                $customer->save();
+                $this->getMessage()->setSuccess("Shipping Address Added !!");
+            }
+        }
+        } 
+        catch (Exception $e) 
+        {
+            $this->getMessage()->setFailed($e->getMessage());
+        }   
+
+        $this->redirect('form','customer',null,false);
+    }
 }

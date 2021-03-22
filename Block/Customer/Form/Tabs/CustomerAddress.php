@@ -42,4 +42,13 @@ class Block_Customer_Form_Tabs_CustomerAddress extends Block_Core_Template
         }
         return $this->customers;
     }
+    public function getAddressData($id, $type)
+    {
+        $customerAddress = Mage::getModel("Model_CustomerAddressModel");
+        $query = "SELECT * from customer_address where customerId = {$id} and addressType='{$type}'";
+        if(!$customerAddress->fetchAll($query)){
+            return $customerAddress;
+        }
+        return $customerAddress->fetchAll($query)->getData()[0];
+    }
 }

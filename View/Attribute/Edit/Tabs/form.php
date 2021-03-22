@@ -1,70 +1,96 @@
-<?php
-$attribute = $this->getAttribute();
-$BackendTypeOptions = $this->getBackendTypeOptions();
-$inputTypeOptions = $this->getinputTypeOptions();
-$entityTypeOptions = $this->getEntityTypeOptions();
-?>
 <div class="container">
+    <div class="card text-left">
+        <div class="card-body">
+            <h4 class="card-title"></h4>
+            
+            <form action="<?php echo $this->getUrl()->getUrl('save'); ?>" method="post">
 
-    <form method="POST" action="<?php echo $this->getUrlObject()->getUrl('save'); ?>">
-        <div class="row">
-            <div class="col-md-5 m-3">
-                <label for="entityTypeId" class="form-label"><b>Entity Type</b></label>
-                <select class="custom-select form-control" name="attribute[entityTypeId]" id='entityTypeId'>
-                    <?php foreach ($entityTypeOptions as $key => $value) : ?>
-                        <option class="form-control" value="<?php echo $key; ?>" <?php if ($attribute->entityTypeId == $key) echo "selected"; ?>>
-                            <?php echo $value; ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="col-md-5 m-3">
-                <label for="name" class="form-label"><b>Name</b></label>
-                <input type="text" class="form-control" name="attribute[name]" id="name" placeholder="Attribute Name" value="<?php echo $attribute->name; ?>">
-            </div>
+                        <?php if ($this->getRequest()->getGet('id')):  ?>
+                            <p class="h2 text-center">Update Attribute Details</p><br>
+                        <?php else: ?>
+                            <p class="h2 text-center">Add Attribute Details</p><br>
+                        <?php endif; ?>
+             
+                    <?php $attribute = $this->getAttribute(); ?>
+
+                    <div class="row">
+
+                        <div class="form-group col-md-12">
+                            <label for="entityTypeId">INPUT TYPE</label>
+                            <select id="entityTypeId" name="attribute[entityTypeId]" class="validate form-control" require>
+                                <option value="0" selected disabled>Select Input Type</option>
+                                <?php foreach ($attribute->getEntityType() as $key => $value) : ?>
+                                    <option value="<?php echo $key; ?>" <?php echo ($attribute->entityTypeId == $key) ? "selected" : ""; ?>><?php echo $value; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="name">ATTRIBUTE NAME</label>
+                            <input id="name" name="attribute[name]" value="<?php echo $attribute->name ?>" type="text" class="validate form-control" require>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="code">CODE</label>
+                            <input id="code" name="attribute[code]" value="<?php echo $attribute->code ?>" type="text" class="validate form-control" require>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="inputType">INPUT TYPE</label>
+                            <select id="inputType" name="attribute[inputType]" class="validate form-control" require>
+                                <option value="0" selected disabled>Select Input Type</option>
+                                <?php foreach ($attribute->getInputTypeOption() as $key => $value) : ?>
+                                    <option value="<?php echo $key; ?>" <?php echo ($attribute->inputType == $key) ? "selected" : ""; ?>><?php echo $value; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="inputType">BACKEND TYPE</label>
+                            <select id="inputType" name="attribute[backendType]" class="validate form-control" require>
+                                <option value="0" selected disabled>Select Backend Type</option>
+                                <?php foreach ($attribute->getBackendTypeOption() as $key => $value) : ?>
+                                    <option value="<?php echo $key; ?>" <?php echo ($attribute->backendType == $key) ? "selected" : ""; ?>>
+                                        <?php echo $value; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="sortOrder">SORT ORDER</label>
+                            <input id="sortOrder" name="attribute[sortOrder]" value="<?php echo $attribute->sortOrder ?>" type="number" class="validate form-control" require>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="backendModel">BACKEND MODEL</label>
+                            <input id="backendModel" name="attribute[backendModel]" value="<?php echo $attribute->backendModel ?>" type="text"  class="validate form-control" require>
+                        </div>
+
+
+
+
+                    </div>
+
+                    <?php if (!$this->getRequest()->getGet('id')):  ?>
+
+                        <button class="btn btn-primary" type="submit" name="add">Add Attribute
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    <?php  else: ?>
+                        <button class="btn btn-primary" type="submit" name="add">Update Attribute
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    <?php  endif; ?>
+                    <button type="reset" class="btn btn-warning">Reset <i class="fa fa-undo"></i></button>
+                    <a class="btn btn-danger" href="<?php echo $this->getUrl()->getUrl('grid', null, null, true); ?>">Cancel <i class="fa fa-times"></i></a>
+                </fieldset>
+            </form>
+
         </div>
-        <div class="row">
-            <div class="col-md-5 m-3">
-                <label for="code" class="form-label"><b>Code</b></label>
-                <input type="text" class="form-control" name="attribute[code]" id="code" placeholder="Code" value="<?php echo $attribute->code; ?>">
-            </div>
-            <div class="col-md-5 m-3">
-                <label for="inputType" class="form-label"><b>inputTypeOptions</b></label>
-                <select class="custom-select form-control" name="attribute[inputType]" id='inputType'>
-                    <?php foreach ($inputTypeOptions as $key => $value) : ?>
-                        <option class="form-control" value="<?php echo $key; ?>" <?php if ($attribute->inputType == $key) echo "selected"; ?>>
-                            <?php echo $value; ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-5 m-3">
-                <label for="backendType" class="form-label"><b>backendType</b></label>
-                <select class="custom-select form-control" name="attribute[backendType]" id='backendType'>
-                    <?php
-                    foreach ($BackendTypeOptions as $key => $value) : ?>
-                        <option class="form-control" value="<?php echo $key; ?>" <?php if ($attribute->backendType == $key) : echo "selected";
-                                                                                    endif; ?>>
-                            <?php echo $value; ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="col-md-5 m-3">
-                <label for="backendModel" class="form-label"><b>Backend Model</b></label>
-                <input type="text" class="form-control" name="attribute[backendModel]" id="backendModel" placeholder="backendModel" value="<?php echo $attribute->backendModel; ?>">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-5 m-3">
-                <label for="sortOrder" class="form-label"><b>Sort Order</b></label>
-                <input type="text" class="form-control" name="attribute[sortOrder]" id="sortOrder" placeholder="sortOrder" value="<?php echo $attribute->sortOrder; ?>">
-            </div>
-        </div>
-        <a href="<?php echo $this->getUrlObject()->getUrl('grid'); ?>" name="back" id="back" class="btn btn-light"><i class="fas fa-long-arrow-alt-left"></i> Back</a>
-        <button name="submit" id="submit" class="btn btn-primary my-4"><i class="fas fa-plus"></i> <?php echo $this->getButton(); ?></button>
-        <br><br>
-    </form>
+    </div>
 </div>
+
+
+
+

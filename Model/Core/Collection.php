@@ -1,9 +1,12 @@
 <?php
 
-class Model_Attribute_Option_Collection
-{
-
+class Model_Core_Collection {
     protected $data = [];
+
+    public function __construct()
+    {
+        
+    }
 
     public function setData(array $data)
     {
@@ -21,3 +24,5 @@ class Model_Attribute_Option_Collection
         return count($this->data);
     }
 }
+
+?>

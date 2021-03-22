@@ -45,11 +45,13 @@ class Model_Core_Adapter
 			$this->connection();
 		}
 		$result = mysqli_query($this->getConnect(), $query);
+		
 		if ($result->num_rows > 0) {
 			$data = [];
 			while ($row = $result->fetch_assoc()) {
 				$data[] = $row;
 			}
+			
 			return $data;
 		}
 	}
@@ -98,6 +100,19 @@ class Model_Core_Adapter
 			return true;
 		}
 		return false;
+	}
+
+	public function alterTable($query)
+	{
+		if (!$this->isConnected()) {
+			$this->connection();
+		}
+		$result = mysqli_query($this->getConnect(), $query);
+
+		if (mysqli_error($this->getConnect())) {
+			return false;
+		}
+		return true;
 	}
 
 	public function fetchPairs($query)

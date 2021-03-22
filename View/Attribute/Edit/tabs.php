@@ -1,12 +1,14 @@
-<?php
+<?php 
 
-$tabs = $this->getTabs();
-$id = $this->getRequest()->getGet('id');
+  $tabs = $this->getTabs();
+  $urlTab = $this->getRequest()->getGet('tab');
+  foreach ($tabs as $key => $value):
 
-foreach ($tabs as $key => $tab) { ?>
-    <a class="btn btn-primary m-4" href="<?php echo $this->getUrlObject()->getUrl(null, null, ['tab' => $key, 'id' => $id]); ?>">
-        <?php echo $tab['label']; ?>
-    </a>
-
-<?php }
 ?>
+<div class="list-group" >
+  <a href="<?php echo $this->getUrl()->getUrl(null,null,["tab"=>$key]); ?>" class="p-4 list-group-item list-group-item-action flex-column align-items-start"  style="background-color: #1fb8ff; color:white">
+    <p class="mb-1 font-weight-bold"><?php echo $value['label'] ?></p>
+  </a>
+</div>
+
+<?php endforeach; ?>

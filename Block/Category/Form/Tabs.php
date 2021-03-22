@@ -14,7 +14,11 @@ class Block_Category_Form_Tabs extends Block_Core_Template{
     public function prepareTab()
     {
         $this->addTab('category',["label"=>"Category Information","className"=>'Block_Category_Form_Tabs_Form']);
-        $this->addTab('media',["label"=>"Media","className"=>'Block_Category_Form_Tabs_Media']);
+        if ($this->getRequest()->getGet('id')) {
+            $this->addTab('attribute', ["label" => "Attribute", "className" => 'Block_Category_Form_Tabs_Attribute']);
+
+        }
+        
         $this->setDefault('category');
     }
 

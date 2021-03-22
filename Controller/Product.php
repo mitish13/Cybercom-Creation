@@ -100,17 +100,18 @@ class Controller_Product extends Controller_Core_Admin
             $id = $this->getRequest()->getGet('id');
             $delModel = Mage::getModel('model_productModel');
             $delModel->id = $id;
-            
+
             //Delete photos from directory
             $query = "SELECT imageName from productgallery where productId=$id";
+           
             $Media = Mage::getModel('model_mediaModel');
             $filenames = $Media->fetchAll($query);
-         
+            if($filenames){
             foreach ($filenames->getData() as $key => $value) {
                 
                 unlink(getcwd()."\Skin\admin\images\\{$id}\\{$value->imageName}");
             }
-            
+            }
             $delModel->delete();
 
             if ($delModel->delete()) {

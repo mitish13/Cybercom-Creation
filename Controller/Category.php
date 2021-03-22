@@ -56,15 +56,34 @@ class Controller_Category extends Controller_Core_Admin
     }
 
     public function saveAction()
+    // if (!$this->getRequest()->isPost()) {
+    //     throw new \Exception("Invalid Request.");
+    // }
+    // $postData = $this->getRequest()->getPost('category');
+    // $category = \Mage::getModel('Model\Category');
+    // if ($categoryId = $this->getRequest()->getGet('id')) {
+    //     if (!$category->load($categoryId)) {
+    //         throw new \Exception("Id is invalid.");
+    //     }
+    // }
+    // $categoryPathId = $category->pathId.'/';
+    
+    // $category->setData($postData);
+    // if (!$category->save()) {
+    //     throw new \Exception("Something went wrong.");
+    // }
+
     {
         try {
             $cat = Mage::getModel('Model_CategoryModel');    
             $category_data = $this->getRequest()->getPost('category');
-            
             $cat->setData($category_data);
+            
             
             if ($id = $this->getRequest()->getGet('id')) {
                 $cat = $cat->load($id);
+                $cat->setData($category_data);
+               
                 if (!$cat) {
                     throw new Exception('Please Enter Valid ID');
                 }
@@ -75,7 +94,7 @@ class Controller_Category extends Controller_Core_Admin
                 
                 $this->getMessage()->setSuccess('Record Inserted Successfully.....');
             }
-           
+
             
             $categoryPathId = $cat->pathId;
             

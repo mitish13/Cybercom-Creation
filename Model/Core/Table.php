@@ -108,6 +108,7 @@ class Model_Core_Table
             $final = rtrim($final, ",");
 
             $query = "UPDATE `{$this->getTableName()}` SET {$final} WHERE `{$this->getPrimaryKey()}` = '{$id}'";
+           
             $this->update($query);
         }
     }
@@ -117,7 +118,9 @@ class Model_Core_Table
         if (!$query) {
             $query = "SELECT * FROM `{$this->getTableName()}`";
         }
+       
         $rows = $this->getAdapter()->fetchAll($query);
+       
         if (!$rows) {
             return false;
         }
@@ -126,14 +129,16 @@ class Model_Core_Table
             $key->setData($value);
             $rowArray[] = $key;
         }
-
+       
         $collectionClassName = get_class($this) . '_Collection';
+        
         $collection = Mage::getModel($collectionClassName);
         $collection->setData($rowArray);
+        
         unset($rowArray);
         return $collection;
     }
-
+    
 
     public function changeStatus()
     {
@@ -156,7 +161,7 @@ class Model_Core_Table
         $value = (int)$value;
 
         $query = "select * from `{$this->getTableName()}` where `{$this->getPrimaryKey()}` = {$value}";
-      
+       
         $row = $this->getAdapter()->fetchRow($query);
         if (!$row) {
             return false;
@@ -195,6 +200,35 @@ class Model_Core_Table
         if (!$row) {
             return false;
         }
+        return $this;
+    }
+
+    
+    public function alterTable($query)
+    {
+        if (!$query) {
+            return false;
+        }
+
+        $row = $this->getAdapter()->alterTable($query);
+        if (!$row) {
+            return false;
+        }
+        return $this;
+    }
+    
+    public function fetchRow($query)
+	{
+		$data = $this->getAdapter()->fetchRow($query);
+		if (!$data) {
+			return false;
+		}
+		$this->setData($data);
+		return $this;
+	}
+    public function resetArray()
+    {
+        $this->data = [];
         return $this;
     }
 }

@@ -15,7 +15,9 @@ class Block_Customer_Form_Tabs extends Block_Core_Template
     public function prepareTab()
     {
         $this->addTab('customer', ["label" => "Customer Information", "className" => 'Block_Customer_Form_Tabs_Form']);
-        $this->addTab('customerAddress', ["label" => "Customer Address", "className" => 'Block_Customer_Form_Tabs_CustomerAddress']);
+        if($this->getRequest()->getGet('id')){
+            $this->addTab('customerAddress',["label"=>"Customer Address","className"=>'Block_Customer_Form_Tabs_CustomerAddress']);
+        }
         $this->setDefault('customer');
     }
 

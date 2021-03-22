@@ -1,154 +1,115 @@
 <?php
-Mage::loadClassByFileName('Controller_Core_Admin');
+
+Mage::loadClassByFileName("Controller_Core_Admin");
 
 class Controller_Attribute extends Controller_Core_Admin
-{
+{   
     public function gridAction()
     {
+        $gridBlock = Mage::getBlock("Block_Attribute_Grid");
         $layout = $this->getLayout();
         $layout->setTemplate("./core/layout/one_column.php");
-        
-        $grid = Mage::getBlock('Block_Attribute_Grid');
-        $layout->getChild("Content")->addChild($grid,'grid');
-      
+        $layout->getChild("Content")->addChild($gridBlock, 'Grid');
         $this->renderLayout();
     }
-
     public function formAction()
     {
         $layout = $this->getLayout();
-        $content = $layout->getChild('content');
 
-        $edit = Mage::getBlock("Block_Attribute_Edit");
-        $edit->setController($this);
-        $content->addChild($edit, 'edit');
+        $attributeTab = Mage::getBlock("Block_Attribute_Edit_Tabs");
+        $layout->getChild('Sidebar')->addChild($attributeTab, 'Tab');
 
-        $left = $layout->getChild('left');
-        $left->setController(new Controller_Core_Admin());
-        $tabs = Mage::getBlock("Block_Attribute_Edit_Tabs");
-        $tabs->setController($this);
-        $left->addChild($tabs, 'tabs');
-        echo $layout->toHtml();
+        $form = Mage::getBlock('Block_Attribute_Edit');
+        $layout->getChild('Content')->addChild($form, 'Grid');
+
+        $this->renderLayout();
     }
-
-    public function editAction()
-    {
-        try {
-            $edit = Mage::getBlock("Block_Attribute_Edit");
-            $edit->setController($this);
-            $layout = $this->getLayout();
-            $content = $layout->getChild('content')->addChild($edit);
-            echo $layout->toHtml();
-        } catch (Exception $e) {
-            echo $e->getMessage();
-            die();
-        }
-    }
-
 
     public function saveAction()
     {
-        if ($this->getRequest()->getGet('tab') != 'option') {
-            try {
-                if (!$this->getRequest()->isPost()) {
-                    throw new Exception("invalid Request");
-                }
-                $attribute = Mage::getModel("Model_Attribute");
-                if ((int)$id = $this->getRequest()->getGet("id")) {
-                    $attribute = $attribute->load($id);
-                    if (!$attribute) {
-                        throw new Exception("No record.");
-                    }
-                }
-                $attributeData = $this->getRequest()->getPost('attribute');
+        try {
+            $attribute = Mage::getModel("Model_AttributeModel");
+            if (!$this->getRequest()->isPost()) {
+                throw new Exception("Invalid Post Request", 1);
+            }
+            $attributeId = $this->getRequest()->getGet('id');
+            $attributeData = $this->getRequest()->getPost('attribute');
+
+            if (!$attributeId) {
                 $attribute->setData($attributeData);
-                $attribute->save();
-                $this->redirect('grid');
-            } catch (Exception $e) {
-                echo $e->getMessage();
-                die();
-            }
-        } else {
-            $this->updateOptions();
-        }
-    }
 
-    public function optionAction()
-    {
-        try {
-            $option = Mage::getBlock("Block_Attribute_Edit_Tabs");
-            $option->setController($this);
-            $layout = $this->getLayout();
-            $layout->getChild('content')->addChild($option);
-            echo $layout->toHtml();
+                if ($attribute->save()) {
+
+                    $modelname = 'Model'.'_' . $attributeData['entityTypeId']. "Model";
+
+                    $model = Mage::getModel($modelname);
+                   
+                    $query = "ALTER TABLE `{$attributeData['entityTypeId']}` ADD `{$attributeData['name']}` {$attributeData['backendType']} NOT NULL;";
+
+                    if (!$model->alterTable($query)) {
+                        throw new Exception("Error!!", 1);
+                    }
+
+                    $this->getMessage()->setSuccess("Attribute Inserted SuccessFully !!");
+                } else {
+                    throw new Exception("Insertion Error");
+                }
+            } else {
+                $attribute =  $attribute->load($attributeId);
+                if (!$attribute) {
+                    throw new Exception("Data Not Found", 1);
+                }
+                $attribute->setData($attributeData);
+
+
+                $attribute->attributeId = $attributeId;
+
+                if (!$attribute->save()) {
+                    $this->getMessage()->setSuccess("Attribute Updated SuccessFully !!");
+                } else {
+                    throw new Exception("Update Error");
+                }
+            }
         } catch (Exception $e) {
-            echo $e->getMessage();
-            die();
+            $this->getMessage()->setFailure($e->getMessage());
         }
-    }
-
-    public function updateOptions()
-    {
-        $optionData = $this->getRequest()->getPost('option');
-        try {
-            if (!$optionData) {
-                throw new Exception("invalid Request");
-            }
-            foreach ($optionData['exist'] as $optionId => $optionValues) {
-                $option = Mage::getModel('Model_Attribute_Option');
-                $option->setData($optionValues);
-                // $option->save();
-                die;
-            }
-            foreach ($optionData['new'] as $optionId => $optionValues) {
-                $option = Mage::getModel('Model_Attribute_Option');
-                $option->setData($optionValues);
-            }
-
-            $this->redirect('grid');
-        } catch (Exception $e) {
-            echo $e->getMessage();
-            die();
-        }
+        $this->redirect('grid', null, null, true);
     }
 
     public function deleteAction()
     {
         try {
-            $id = (int) $this->getRequest()->getGet('id');
-            if (!$id) {
-                throw new Exception("Id Required.");
+            if ($this->request->isPost()) {
+                throw new Exception("Invalid Request", 1);
             }
-            $attribute = Mage::getModel("Model_Attribute");
-            $attribute->load($id);
-            if ($attribute->delete($id)) {
-                $this->getMessage()->setSuccess("Record Deleted Successfully");
-            } else {
-                $this->getMessage()->setSuccess("Unable to Delete Record");
-            }
-        } catch (Exception $e) {
-            echo $this->getMessage()->setFailure($e->getMessage());
-        }
-        $this->redirect('grid');
-    }
 
-    public function deleteOptionAction()
-    {
-        try {
-            $id = (int) $this->getRequest()->getGet('id');
-            if (!$id) {
-                throw new Exception("Id Required.");
-            }
-            $option = Mage::getModel("Model_Attribute_Option");
-            $option->load($id);
-            if ($option->delete($id)) {
-                $this->getMessage()->setSuccess("Record Deleted Successfully");
+            $id = $this->getRequest()->getGet('id');
+            $delModel = Mage::getModel('Model_AttributeModel');
+            $attributeData = $delModel->load($id);
+            $modelname = 'Model_' . $attributeData->entityTypeId . "Model";
+
+            $model = Mage::getModel($modelname);
+            $query = "ALTER TABLE `{$attributeData->entityTypeId}` DROP `{$attributeData->name}`;";
+           
+            if ($model->alterTable($query)) {
+                $delModel->id = $id;
+                
+                if ($delModel->delete()) {
+                    $this->getMessage()->setSuccess("Attribute Deleted SuccessFully!!");
+                }
             } else {
-                $this->getMessage()->setSuccess("Unable to Delete Record");
+                $this->getMessage()->setFailure("Error While Deleting Data!!");
             }
         } catch (Exception $e) {
             $this->getMessage()->setFailure($e->getMessage());
+            die();
         }
-        $this->redirect('form', null, ['id' => $option->attributeId], true);
+        $this->redirect('grid', null, null, true);
+    }
+
+    public function optionAction()
+    {
+        $attribute = Mage::getModel('Model_AttributeModel');
+        $id = $this->getRequest()->getGet('id');
     }
 }
